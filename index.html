@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* Base Styles */
+      
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .about-content {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            text-align: left; /* Ensure text is aligned to the left */
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar img {
+            width: 10px;
+            height: 10px;
+            
+        }
+
+        .about-text {
+            flex: 1; /* Make the text take available space */
+        }
+
+        .about-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .about-buttons a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid black;
+            color: black;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .about-buttons a:hover {
+            background-color: black;
+            color: #fff;
+        }
+
+        body.dark .about-buttons a {
+    background-color: #FEBA01;
+    color: #000; /* Black text color */
+    border-color: #000; /* Black border */
+}
+
+body.dark .about-buttons a:hover {
+    background-color: white; /* Black background on hover */
+    color: black; /* White text on hover */
+}
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #d1d1d1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Scroll Progress Bar */
+        #progressBar {
+            height: 4px;
+            background-color:#FEBA01;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            z-index: 1000;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+      
+
+        header.dark {
+            background-color: #1f1f1f;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap:40px;
+        }
+
+        nav ul li button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: black;
+            transition: color 0.3s;
+            padding: 10px;
+        }
+
+        nav ul li button:hover {
+            color: black;
+            
+            border-radius: 5px;
+            background-color: #FEBA01;
+            box-shadow: 2px 2px 5px gray;
+        }
+
+        .toggle-container {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+
+        .toggle-container.dark {
+            background: black;
+        }
+
+        .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left 0.3s;
+        }
+
+        .toggle-container.dark .toggle-circle {
+            left: 26px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+    
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            margin: 20px auto;
+            width: 70%;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dark .card {
+            background-color: #1f1f1f;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .skills-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.skills-bar label {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+.bar-container {
+    flex: 1;
+    height: 20px;
+    background-color: #ddd;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.bar-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--fill);
+    background-color: #FEBA01;
+    border-radius: 5px;
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+.percentage {
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    z-index: 2;
+}
+
+body.dark .bar-container::after {
+    background-color: #FEBA01; /* Yellow for dark mode */
+}
+        .list-item {
+            margin: 10px 0;
+        }
+
+        .list-item strong {
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .dark footer {
+            background-color: #1f1f1f;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="progressBar"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><button onclick="scrollToSection('about')">About</button></li>
+                <li><button onclick="scrollToSection('experience')">Internship</button></li>
+                <li><button onclick="scrollToSection('projects')">Projects</button></li>
+                <li><button onclick="scrollToSection('education')">Education</button></li>
+                <li><button onclick="scrollToSection('skills')">Skills</button></li>
+                <li><button onclick="scrollToSection('contact')">Contact</button></li>
+            </ul>
+        </nav>
+        <div id="themeToggle" class="toggle-container">
+            <div class="toggle-circle"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- About Section -->
+        <div class="card" id="about">
+            <div class="about-content">
+                <div class="">
+                    <img src="anusha.jpg" height="120px" width="120px" alt="Anusha CK">
+                </div>
+                <div class="about-text">
+                    <h1>ANUSHA C K</h1>
+                    <p>To leverage my knowledge of computer applications, programming languages, 
+                       and problem-solving skills in a dynamic organization,
+                       where I can contribute to software development and IT solutions,
+                       while continuously enhancing my technical expertise and achieving professional growth."</p>
+                </div>
+            </div>
+            <div class="about-buttons">
+                <a href="https://www.linkedin.com/in/anusha-ck-1649a033b" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="width: 16px;">
+                    LinkedIn
+                </a>
+                <a href="https://github.com/anushackanu" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" style="width: 16px;">
+                    GitHub
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Experience Section -->
+        <div class="card" id="experience">
+            <h2>Internship</h2> <hr><br>
+            <p><strong> <li style="list-style-type: none;">KODNEST TECHNOLOGIES | December 2024 - March 2025 </li></strong></p>
+            <p><i><strong>Fullstack Developer</strong></i></p><br>
+            <p><p>As a Full Stack Developer Intern, I was responsible for contributing to the complete lifecycle of web application development, working on both front-end and back-end components, managing databases, and participating in software testing.</p>
+
+<p style="list-style-type: circle;">On the front end, I worked with HTML, CSS, JavaScript, ReactJS, and Vue.js to create responsive and interactive user interfaces. On the back end, I developed applications using Java with Spring Boot and Python with Django/Flask, ensuring seamless API integration and robust server-side logic. Additionally, I gained experience in SQL with MySQL and PostgreSQL for efficient database management and query optimization.</p>
+
+<p>In addition to development, I was involved in both manual and automated testing efforts, leveraging tools like Selenium for automation and JIRA for managing test cases and tracking issues, ensuring a high level of application stability and reliability.</p>
+
+<p>In this role,  I played an active role in debugging, testing, and optimizing web applications, continuously improving the user experience. This opportunity allowed me to strengthen my skills in problem-solving, full-stack development, and applying best practices. I contributed to feature implementation, performance enhancements, and system scalability, all while collaborating with a team to meet project goals effectively.</p>
+
+        </div>
+
+        <!-- Projects Section -->
+        <div class="card" id="projects">
+            <h2>Projects</h2><hr><br>
+            <li class="list-item;" style="list-style-type: none;" >
+                    <strong>SalesSavvy – Full-Stack E-Commerce Solution-Java</strong>
+                    <i>
+                        <p style="margin-bottom: 10px;"><u>J2EE, Spring Boot, SQL, HTML, CSS, JavaScript | November 2024 - January 2025</u></p>
+                    </i>
+                    <i>
+                        <p>SalesSavvy is an advanced, all-in-one e-commerce platform designed to provide a seamless experience for both businesses and customers. 
+                           It integrates powerful tools for product management, smooth order processing, and secure payment systems, ensuring high efficiency and customer satisfaction.</p>
+                    </i>
+                </li>
+                
+                <li>
+                    Built a robust full-stack e-commerce solution using J2EE and Spring Boot, developing a scalable backend that handles dynamic product listings, order processing, and customer interactions.
+                </li>
+                
+                <li>
+                    Designed and optimized a responsive front-end using HTML, CSS, and JavaScript, ensuring a smooth user experience across devices.
+                </li>
+                
+                <li>
+                    Incorporated an SQL database to efficiently store and manage product catalogs, customer profiles, and transaction records, ensuring data integrity and quick access.
+                </li>
+                
+                <li>
+                    IIntegrated secure payment gateways and implemented user authentication protocols to maintain privacy and trust, reducing fraud risks.
+                </li>
+                
+                <li>
+                    Streamlined order tracking, cart management, and checkout processes to enhance overall customer satisfaction.
+                </li>
+                
+                <br><hr><hr><hr><br>
+                <li class="list-item;" style="list-style-type: none;">
+                    <strong>MealMate – Full-Stack Food Ordering Platform-Python</strong>
+                    <i>
+                        <p><u>Python (Django), React.js, MySQL | December 2024 - February 2025</u></p>
+                    </i>
+                    <b>
+                        <li style="margin-bottom: 10px; list-style-type: none;">GitHub Link:</b> <a href="https://github.com/anushackanu/Python-MealMate"><u>https://github.com/anushachanu/Python-MealMate</u></a></li>
+                    
+                    <i>
+                        <p>MealMate is a full-stack food ordering system with role-based access control, secure authentication, and PayPal integration. 
+                        It provides a smooth and scalable platform for restaurants and customers, ensuring seamless food ordering and transactions.</p>
+                    </i>
+                </li>
+                
+                <li>
+                    Developed a powerful backend using Django (DRF) / Flask, providing RESTful APIs to manage user roles, authentication, and efficient order processing.
+                </li>
+                
+                <li>
+                    Created a dynamic front-end with React.js / Vue.js, offering a user-friendly and engaging experience for both customers and restaurant administrators.
+                </li>
+                
+                <li>
+                    Implemented JWT authentication for secure user logins and role-based access control (admin, restaurant, and customer).
+                </li>
+                
+                <li>
+                    Integrated the PayPal API to facilitate secure, fast, and reliable payment transactions, ensuring a smooth checkout process.
+                </li>
+                
+                <li>
+                    Designed and optimized a MySQL database to efficiently manage user data, menu items, and order history.
+                </li>
+                
+                <li>
+                    Applied industry-standard security measures, including input validation, authorization checks, and robust error handling, to minimize vulnerabilities and enhance system reliability.
+                </li>
+                <br><hr><hr><hr><br>
+                <li class="list-item;" style="list-style-type: none;" >
+                   <strong>Task Buddy </strong>
+                   <i><p><u>Java Script, React JS | November 2024 - January 2025</u></p></i>
+                   <li style="margin-bottom: 10px; list-style-type: none;"></li><b>GitHub Link:</b> <a href="https://github.com/anushackanu/TaskBuddy"><u>https://github.com/anushackanu/TaskBuddy</u></a></li>
+                   <i><p>TaskBuddy is a ReactJS-based task management app designed for efficient task organization. 
+                    It allows users to add, update, delete, and mark tasks as complete, with all data stored locally using browser storage. 
+                    The app features a user-friendly interface and dynamic controls for seamless task management.</li>
+
+                    <li>Developed a dynamic task management application with features to add, update, delete, and manage tasks.
+                         The intuitive interface ensures seamless user interaction, with tasks persistently stored in the browser using local storage for reliability.</li>
+                </li><br><hr><hr><hr><br>
+                <li class="list-item" style="list-style-type: none;">
+                    <strong>Quiz App</strong>
+                    <p><i><u>JavaScript, ReactJS</u></i></p>
+                    <li style="margin-bottom: 10px; list-style-type: none;"></li><b>GitHub Link:</b> <a href="https://github.com/anushackanu/Quiz-App"><u>https://github.com/anushackanu/Quiz-App</u></a></li>
+                    <li>Developed a ReactJS-based interactive QuizApp that allows users to take assessments through multiple-choice questions (MCQs). 
+                        The application features real-time scoring, intuitive navigation, and validations to ensure a seamless user experience. 
+                        It dynamically calculates scores and displays the final result upon quiz completion. Designed a user-friendly interface with React's state management (useState and useEffect) and styled the application using CSS
+                        </li>
+                </li><br> <hr><hr><hr>
+                <li class="list-item;" style="list-style-type: none;">
+                    <strong>ShopSecure – Manual Testing Project</strong>
+                    <i>
+                        <p style="margin-bottom: 10px;"></li><u>Manual Testing, JIRA, Test Case Execution | January 2024 - February 2025</u></p>
+                    </i>
+                    <i>
+                        <p>ShopSecure is an e-commerce platform where I performed extensive manual testing to verify
+                           functionality, user experience, security, and performance, contributing to a seamless and reliable user interface.</p>
+                    </i>
+                </li>
+                
+                <li>
+                    Crafted and executed thorough test cases covering key areas such as functionality, UI design, security protocols, and performance benchmarks.
+                </li>
+                
+                <li>
+                    Utilized JIRA for efficient defect tracking and test management, ensuring systematic documentation and resolution of issues.
+                </li>
+                
+                <li>
+                    Performed cross-browser testing to verify consistent behavior across Chrome, Firefox, Edge, and Safari.
+                </li>
+                
+                <li>
+                    Conducted responsive testing to optimize the application's performance on mobile and desktop devices.
+                </li>
+                
+                <li>
+                    Validated security aspects, including login authentication, session management, and data protection.
+                </li>
+                
+                <li>
+                    Collaborated with developers to ensure smooth defect resolution and product quality improvements.
+                </li>
+                
+                <br><hr><hr><hr><br>
+                
+            </ul>
+        </div>
+        
+        <!-- Education Section -->
+        <div class="card" id="education">
+            <h2>Education</h2><hr><br>
+            <ul>
+                <li><strong>Degree:</strong> Bachelor of Computer Applications<br><strong>Year:</strong> 2024<br><strong>CGPA:</strong>7.62</li> <br>
+                <li><strong>PUC:</strong>Mahesh PU College<br><strong>Year:</strong> 2021<br><strong>Percentage:</strong> 69%</li><br>
+            </ul>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="card" id="skills">
+            <h2>Skills</h2>
+            <hr><br>
+            <div class="skills-bar">
+                <label>Java</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Python</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>HTML5,CSS3 </label>
+                <span class="bar-container" style="--fill: 90%;">
+                    <span class="percentage">90%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>JavaScript</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>ReactJS</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>SQL</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>MongoDB</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Spring Boot</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Manual Testing</label>
+                <span class="bar-container" style="--fill: 90%;">
+                    <span class="percentage">90%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Automation</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+        </div>
+        
+        
+        <!-- Contact Section -->
+        <div class="card" id="contact">
+            <h2>Contact</h2><hr><br>
+            <p>Email: <a href="anushaanushack@gmail.com">anushaanushack@gmail.com</a></p>
+            <p>Phone: +91 6363013774</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Anusha C K. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            themeToggle.classList.toggle('dark');
+        });
+
+        // Scroll Progress
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (scrollTop / docHeight) * 100;
+            progressBar.style.width = `${scrolled}%`;
+        });
+
+        // Scroll to Section
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
